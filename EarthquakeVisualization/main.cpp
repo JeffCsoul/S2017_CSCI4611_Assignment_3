@@ -5,8 +5,8 @@
 #include "earth.hpp"
 #include "quake.hpp"
 #include "text.hpp"
-#include <glm/glm.hpp>
-#include <glm/ext.hpp>
+#include "glm/glm.hpp"
+#include "glm/ext.hpp"
 #include <iomanip>
 using namespace std;
 using glm::vec3;

@@ -11,6 +11,6 @@
 #include <SDL.h>
 #include <SDL_opengl.h>
 #endif
-#include <glm/glm.hpp>
+#include "glm/glm.hpp"
 
 #endif

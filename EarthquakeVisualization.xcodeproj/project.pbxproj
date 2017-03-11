@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		07CEAC651E6E1A1E003C31B0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 07CEAC641E6E1A1E003C31B0 /* main.cpp */; };
+		07CEAC771E6E1C9B003C31B0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07CEAC761E6E1C9B003C31B0 /* OpenGL.framework */; };
+		07CEAC791E6E1CC8003C31B0 /* SDL2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07CEAC781E6E1CC8003C31B0 /* SDL2.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +27,16 @@
 /* Begin PBXFileReference section */
 		07CEAC611E6E1A1E003C31B0 /* EarthquakeVisualization */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = EarthquakeVisualization; sourceTree = BUILT_PRODUCTS_DIR; };
 		07CEAC641E6E1A1E003C31B0 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		07CEAC6B1E6E1BB3003C31B0 /* camera.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = camera.hpp; sourceTree = "<group>"; };
+		07CEAC6C1E6E1BB3003C31B0 /* config.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = config.hpp; sourceTree = "<group>"; };
+		07CEAC6D1E6E1BB3003C31B0 /* draw.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = draw.hpp; sourceTree = "<group>"; };
+		07CEAC6E1E6E1BB3003C31B0 /* earth.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = earth.hpp; sourceTree = "<group>"; };
+		07CEAC6F1E6E1BB3003C31B0 /* engine.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = engine.hpp; sourceTree = "<group>"; };
+		07CEAC701E6E1BB3003C31B0 /* graphics.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = graphics.hpp; sourceTree = "<group>"; };
+		07CEAC721E6E1BB3003C31B0 /* quake.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = quake.hpp; sourceTree = "<group>"; };
+		07CEAC731E6E1BB3003C31B0 /* text.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = text.hpp; sourceTree = "<group>"; };
+		07CEAC761E6E1C9B003C31B0 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		07CEAC781E6E1CC8003C31B0 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../../../../Library/Frameworks/SDL2.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +44,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				07CEAC791E6E1CC8003C31B0 /* SDL2.framework in Frameworks */,
+				07CEAC771E6E1C9B003C31B0 /* OpenGL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -43,6 +57,7 @@
 			children = (
 				07CEAC631E6E1A1E003C31B0 /* EarthquakeVisualization */,
 				07CEAC621E6E1A1E003C31B0 /* Products */,
+				07CEAC751E6E1C9B003C31B0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,8 +73,25 @@
 			isa = PBXGroup;
 			children = (
 				07CEAC641E6E1A1E003C31B0 /* main.cpp */,
+				07CEAC6B1E6E1BB3003C31B0 /* camera.hpp */,
+				07CEAC6C1E6E1BB3003C31B0 /* config.hpp */,
+				07CEAC6D1E6E1BB3003C31B0 /* draw.hpp */,
+				07CEAC6E1E6E1BB3003C31B0 /* earth.hpp */,
+				07CEAC6F1E6E1BB3003C31B0 /* engine.hpp */,
+				07CEAC701E6E1BB3003C31B0 /* graphics.hpp */,
+				07CEAC721E6E1BB3003C31B0 /* quake.hpp */,
+				07CEAC731E6E1BB3003C31B0 /* text.hpp */,
 			);
 			path = EarthquakeVisualization;
+			sourceTree = "<group>";
+		};
+		07CEAC751E6E1C9B003C31B0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				07CEAC781E6E1CC8003C31B0 /* SDL2.framework */,
+				07CEAC761E6E1C9B003C31B0 /* OpenGL.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -216,6 +248,10 @@
 		07CEAC691E6E1A1E003C31B0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -223,6 +259,10 @@
 		07CEAC6A1E6E1A1E003C31B0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(LOCAL_LIBRARY_DIR)/Frameworks",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -246,6 +286,7 @@
 				07CEAC6A1E6E1A1E003C31B0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
