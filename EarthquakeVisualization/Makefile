@@ -1,4 +1,4 @@
-Earthquake: main.cpp draw.hpp engine.hpp
+Earthquake: config.hpp draw.hpp engine.hpp graphics.hpp quake.hpp camera.hpp earth.hpp main.cpp text.hpp
 	g++ main.cpp -o Earthquake `pkg-config --cflags --libs sdl2 glew` -I./
 
 clean:
