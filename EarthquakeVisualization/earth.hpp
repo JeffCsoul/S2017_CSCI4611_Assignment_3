@@ -13,7 +13,7 @@ public:
     void setSpherical(float spherical);
     vec3 getPosition(float latitude, float longitude);
     vec3 getNormal(float latitude, float longitude);
-    void draw(bool textured);
+    void draw(int textured);
 protected:
     int slices, stacks;
     int nVertices, nTriangles;
@@ -26,7 +26,7 @@ protected:
 
     VertexBuffer vertexBuffer, normalBuffer, texCoordBuffer;
     ElementBuffer indexBuffer;
-    Texture texture;
+    Texture texture, heightText;
 };
 
 inline void Earth::initialize(Engine *e, int sl, int st, float sp) {
@@ -41,11 +41,15 @@ inline void Earth::initialize(Engine *e, int sl, int st, float sp) {
 
     for (int i = 0; i < slices; i ++)
       for (int j = 0; j <= stacks; j ++) {
-        vertices.push_back(vec3(i - slices / 2, j - stacks / 2, 0));
+        vertices.push_back(vec3((double)(i) / slices * 2 * M_PI - M_PI,
+                                (double)(j) / stacks * M_PI - M_PI / 2.0,
+                                0));
         normals.push_back(vec3(0, 0, 1));
         texCoords.push_back(vec2((double)i / slices, 1.0 - (double) j / stacks));
 
-        vertices.push_back(vec3(i - slices / 2 + 1, j - stacks / 2, 0));
+        vertices.push_back(vec3((double)(i + 1) / slices * 2 * M_PI - M_PI,
+                                (double)(j) / stacks * M_PI - M_PI / 2.0,
+                                0));
         normals.push_back(vec3(0, 0, 1));
         texCoords.push_back(vec2((double)(i + 1) / slices, 1.0 - (double) j / stacks));
       }
@@ -72,6 +76,7 @@ inline void Earth::initialize(Engine *e, int sl, int st, float sp) {
     indexBuffer = engine->allocateElementBuffer(nIndices*sizeof(int));
     engine->copyElementData(indexBuffer, &indices[0], nIndices*sizeof(int));
     texture = engine->loadTexture(Config::textureFile);
+    heightText = engine->loadTexture(Config::heightFile);
 }
 
 inline float Earth::isSpherical() {
@@ -120,14 +125,16 @@ inline vec3 Earth::getNormal(float latitude, float longitude) {
     }
 }
 
-inline void Earth::draw(bool textured) {
+inline void Earth::draw(int textured) {
 
     // TODO: Draw the mesh (with or without texture, depending on the input)
     engine->setVertexArray(vertexBuffer);
     engine->setNormalArray(normalBuffer);
     engine->setTexCoordArray(texCoordBuffer);
-    if (textured)
+    if (textured == 1)
       engine->setTexture(texture);
+    else if (textured == 2)
+      engine->setTexture(heightText);
     else
       engine->unsetTexture();
     engine->drawElements(GL_TRIANGLES, indexBuffer, nIndices);

@@ -22,7 +22,7 @@ public:
     OrbitCamera camera;
 
     Earth earth;
-    bool visualizeMesh;
+    int visualizeMesh;
     EarthquakeDatabase qdb;
 
     float currentTime;
@@ -36,7 +36,7 @@ public:
         camera = OrbitCamera(5, 0, 0, Perspective(40, 16/9., 0.1, 10));
         float isSpherical = 0;
         earth.initialize(this, slices, stacks, isSpherical);
-        visualizeMesh = false;
+        visualizeMesh = 1;
         qdb = EarthquakeDatabase(Config::quakeFile);
 		if (!qdb.fileFound){
 			errorMessage(("Failed to open earthquake file " + Config::quakeFile).c_str());
@@ -98,16 +98,16 @@ public:
         // Apply camera transformation
         camera.apply();
         // Draw earth
-        if (visualizeMesh) {
+        if (visualizeMesh == 0) {
             glColor3f(1,1,1);
-            earth.draw(false);
+            earth.draw(0);
             glColor3f(0.5,0.5,1);
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            earth.draw(false);
+            earth.draw(0);
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         } else {
             glColor3f(1,1,1);
-            earth.draw(true);
+            earth.draw(visualizeMesh);
         }
         // Draw quakes
         int start = qdb.getIndexByDate(Date(currentTime - Config::timeWindow));
@@ -145,7 +145,7 @@ public:
         if (e.keysym.scancode == SDL_SCANCODE_SPACE)
             playing = !playing;
         if (e.keysym.scancode == SDL_SCANCODE_M)
-            visualizeMesh = !visualizeMesh;
+            visualizeMesh = (visualizeMesh + 1) % 3;
 
         // TODO: Switch between rectangle and sphere on pressing S
 
