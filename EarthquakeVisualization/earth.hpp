@@ -123,25 +123,13 @@ inline vec3 Earth::getNormal(float latitude, float longitude) {
 inline void Earth::draw(bool textured) {
 
     // TODO: Draw the mesh (with or without texture, depending on the input)
-    // Light gray background
-    glClearColor(0.8,0.8,0.8, 1);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    // Point and line size
-    glPointSize(5);
-    glLineWidth(2);
-    // Draw mesh
-    glColor3f(1,1,1);
-    glScalef(0.1, 0.1, 0.1);
     engine->setVertexArray(vertexBuffer);
     engine->setNormalArray(normalBuffer);
     engine->setTexCoordArray(texCoordBuffer);
     if (textured)
       engine->setTexture(texture);
     else
-    {
       engine->unsetTexture();
-      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-    }
     engine->drawElements(GL_TRIANGLES, indexBuffer, nIndices);
 }
 
