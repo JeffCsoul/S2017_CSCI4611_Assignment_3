@@ -41,16 +41,23 @@ inline void Earth::initialize(Engine *e, int sl, int st, float sp) {
 
     for (int i = 0; i < slices; i ++)
       for (int j = 0; j <= stacks; j ++) {
-        vertices.push_back(vec3((double)(i) / slices * 2 * M_PI - M_PI,
-                                (double)(j) / stacks * M_PI - M_PI / 2.0,
-                                0));
-        normals.push_back(vec3(0, 0, 1));
+        // vertices.push_back(vec3((double)(i) / slices * 2 * M_PI - M_PI,
+        //                         (double)(j) / stacks * M_PI - M_PI / 2.0,
+        //                         0));
+        float longitude, latitude;
+        longitude = (double)i / slices * 360 - 180;
+        latitude = (double)j / stacks * 180 - 90;
+        vertices.push_back(getPosition(latitude, longitude));
+        normals.push_back(getNormal(latitude, longitude));
         texCoords.push_back(vec2((double)i / slices, 1.0 - (double) j / stacks));
 
-        vertices.push_back(vec3((double)(i + 1) / slices * 2 * M_PI - M_PI,
-                                (double)(j) / stacks * M_PI - M_PI / 2.0,
-                                0));
-        normals.push_back(vec3(0, 0, 1));
+        // vertices.push_back(vec3((double)(i + 1) / slices * 2 * M_PI - M_PI,
+        //                         (double)(j) / stacks * M_PI - M_PI / 2.0,
+        //                         0));
+        longitude = (double)(i + 1) / slices * 360 - 180;
+        latitude = (double)j / stacks * 180 - 90;
+        vertices.push_back(getPosition(latitude, longitude));
+        normals.push_back(getNormal(latitude, longitude));
         texCoords.push_back(vec2((double)(i + 1) / slices, 1.0 - (double) j / stacks));
       }
     nVerts = vertices.size();
@@ -95,7 +102,14 @@ inline vec3 Earth::getPosition(float latitude, float longitude) {
     vec3 rectangularPosition(0,0,0), sphericalPosition(0,0,0);
 
     // TODO compute vertex positions on rectangle and sphere
-
+    rectangularPosition = vec3(longitude / 180 * M_PI,
+                               latitude / 90 * (M_PI / 2.0),
+                               0);
+    float lat_r = latitude / 180 * M_PI;
+    float lon_r = longitude / 180 * M_PI;
+    sphericalPosition = vec3(cos(lat_r) * sin (lon_r),
+                             sin(lat_r),
+                             cos(lat_r) * cos (lon_r));
     if (spherical == 0)
         return rectangularPosition;
     else if (spherical == 1)
@@ -112,7 +126,12 @@ inline vec3 Earth::getNormal(float latitude, float longitude) {
     vec3 rectangularNormal(0,0,0), sphericalNormal(0,0,0);
 
     // TODO compute vertex positions on rectangle and sphere
-
+    rectangularNormal = vec3(0, 0, 1);
+    float lat_r = latitude / 180 * M_PI;
+    float lon_r = longitude / 180 * M_PI;
+    sphericalNormal = vec3(cos(lat_r) * sin (lon_r),
+                             sin(lat_r),
+                             cos(lat_r) * cos (lon_r));
     if (spherical == 0)
         return rectangularNormal;
     else if (spherical == 1)

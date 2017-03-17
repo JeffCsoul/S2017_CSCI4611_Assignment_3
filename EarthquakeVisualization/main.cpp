@@ -34,7 +34,7 @@ public:
     QuakeVis() {
         window = createWindow("Earthquake Visualization", 1280, 720);
         camera = OrbitCamera(5, 0, 0, Perspective(40, 16/9., 0.1, 10));
-        float isSpherical = 0;
+        float isSpherical = 1;
         earth.initialize(this, slices, stacks, isSpherical);
         visualizeMesh = 1;
         qdb = EarthquakeDatabase(Config::quakeFile);
@@ -146,7 +146,9 @@ public:
             playing = !playing;
         if (e.keysym.scancode == SDL_SCANCODE_M)
             visualizeMesh = (visualizeMesh + 1) % 3;
+        if (e.keysym.scancode == SDL_SCANCODE_S) {
 
+        }
         // TODO: Switch between rectangle and sphere on pressing S
 
     }
