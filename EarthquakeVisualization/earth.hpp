@@ -39,7 +39,7 @@ inline void Earth::initialize(Engine *e, int sl, int st, float sp) {
     std::vector<vec3> vertices, normals;
     std::vector<vec2> texCoords;
 
-    for (int i = 0; i <= slices; i ++)
+    for (int i = 0; i < slices; i ++)
       for (int j = 0; j <= stacks; j ++) {
         vertices.push_back(vec3(i - slices / 2, j - stacks / 2, 0));
         normals.push_back(vec3(0, 0, 1));
@@ -47,7 +47,7 @@ inline void Earth::initialize(Engine *e, int sl, int st, float sp) {
 
         vertices.push_back(vec3(i - slices / 2 + 1, j - stacks / 2, 0));
         normals.push_back(vec3(0, 0, 1));
-        texCoords.push_back(vec2((double)i / slices, 1.0 - (double) j / stacks));
+        texCoords.push_back(vec2((double)(i + 1) / slices, 1.0 - (double) j / stacks));
       }
     nVerts = vertices.size();
     vertexBuffer = engine->allocateVertexBuffer(nVerts*sizeof(vec3));
@@ -57,7 +57,7 @@ inline void Earth::initialize(Engine *e, int sl, int st, float sp) {
     texCoordBuffer = engine->allocateVertexBuffer(nVerts*sizeof(vec2));
     engine->copyVertexData(texCoordBuffer, &texCoords[0], nVerts*sizeof(vec2));
     std::vector<int> indices;
-    for (int i = 0; i <= slices; i ++)
+    for (int i = 0; i < slices; i ++)
       for (int j = 0; j < stacks; j ++) {
         int basis = 2 * i * (stacks + 1) + 2 * j;
         indices.push_back(basis);
@@ -131,14 +131,17 @@ inline void Earth::draw(bool textured) {
     glLineWidth(2);
     // Draw mesh
     glColor3f(1,1,1);
-//    glScalef(0.1, 0.1, 0.1);
-    if (!textured)
-      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    glScalef(0.1, 0.1, 0.1);
     engine->setVertexArray(vertexBuffer);
     engine->setNormalArray(normalBuffer);
     engine->setTexCoordArray(texCoordBuffer);
     if (textured)
       engine->setTexture(texture);
+    else
+    {
+      engine->unsetTexture();
+      glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    }
     engine->drawElements(GL_TRIANGLES, indexBuffer, nIndices);
 }
 
