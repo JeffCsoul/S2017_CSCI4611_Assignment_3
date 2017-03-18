@@ -125,8 +125,10 @@ public:
             float ballsize = e.getMagnitude() / 300.0;
             float mul_size = (currentTime - e.getDate().asSeconds()) / Config::timeWindow;
             ballsize *= 1.0 - mul_size;
-
-            glColor3f(1,0.2,0.2);
+            if (e.getMagnitude() <= 7.0)
+              glColor3f(0.8,0.2,0.2);
+            else
+              glColor3f(0.8,0.2,0.8);
             glPushMatrix();
             glTranslatef(pos.x, pos.y, pos.z);
             glScalef(ballsize, ballsize, ballsize);
