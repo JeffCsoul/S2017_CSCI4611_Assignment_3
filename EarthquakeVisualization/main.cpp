@@ -8,6 +8,8 @@
 #include "glm/glm.hpp"
 #include "glm/ext.hpp"
 #include <iomanip>
+#include <algorithm>
+
 using namespace std;
 using glm::vec3;
 using glm::vec4;
@@ -29,13 +31,16 @@ public:
     bool playing;
     float playSpeed;
 
+    float sphericalValue;
+    float sphericalSpeed;
     Text text;
 
     QuakeVis() {
         window = createWindow("Earthquake Visualization", 1280, 720);
         camera = OrbitCamera(5, 0, 0, Perspective(40, 16/9., 0.1, 10));
-        float isSpherical = 1;
-        earth.initialize(this, slices, stacks, isSpherical);
+        sphericalValue = 0;
+        sphericalSpeed = -1;
+        earth.initialize(this, slices, stacks, sphericalValue);
         visualizeMesh = 1;
         qdb = EarthquakeDatabase(Config::quakeFile);
 		if (!qdb.fileFound){
@@ -73,8 +78,10 @@ public:
                 currentTime = maxTime;
         }
 
-        // TODO: Adjust the Earth's isSpherical value if necessary.
-
+        sphericalValue += sphericalSpeed * dt;
+        sphericalValue = (sphericalValue < 0 ? 0 : sphericalValue);
+        sphericalValue = (sphericalValue > 1 ? 1 : sphericalValue);
+        earth.setSpherical(sphericalValue);
     }
 
     void addLight(GLenum light, vec4 position, vec3 color) {
@@ -138,18 +145,21 @@ public:
     }
 
     void onKeyDown(SDL_KeyboardEvent &e) {
-        if (e.keysym.scancode == SDL_SCANCODE_LEFT)
-            playSpeed /= 1.4;
-        if (e.keysym.scancode == SDL_SCANCODE_RIGHT)
-            playSpeed *= 1.4;
+        if (e.keysym.scancode == SDL_SCANCODE_LEFT) {
+          playSpeed /= 1.4;
+          sphericalSpeed /= 1.1;
+        }
+        if (e.keysym.scancode == SDL_SCANCODE_RIGHT) {
+          playSpeed *= 1.4;
+          sphericalSpeed *= 1.1;
+        }
         if (e.keysym.scancode == SDL_SCANCODE_SPACE)
             playing = !playing;
         if (e.keysym.scancode == SDL_SCANCODE_M)
             visualizeMesh = (visualizeMesh + 1) % 3;
         if (e.keysym.scancode == SDL_SCANCODE_S) {
-
+            sphericalSpeed *= -1.0;
         }
-        // TODO: Switch between rectangle and sphere on pressing S
 
     }
 };
