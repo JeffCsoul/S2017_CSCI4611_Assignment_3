@@ -122,15 +122,17 @@ public:
         for (int i = start; i <= end; i++) {
             Earthquake e = qdb.getByIndex(i);
             vec3 pos = earth.getPosition(e.getLatitude(), e.getLongitude());
-            float ballsize = e.getMagnitude() / 280.0;
+            float ballsize = e.getMagnitude() / 300.0;
             float mul_size = (currentTime - e.getDate().asSeconds()) / Config::timeWindow;
             ballsize *= 1.0 - mul_size;
-            glColor3f(0.8,0.3,0.2);
+
+            glColor3f(1,0.2,0.2);
             glPushMatrix();
             glTranslatef(pos.x, pos.y, pos.z);
             glScalef(ballsize, ballsize, ballsize);
             Draw::unitSphere();
             glPopMatrix();
+
             // TODO: Draw an earthquake
 
         }
