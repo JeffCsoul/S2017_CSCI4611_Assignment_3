@@ -125,7 +125,7 @@ public:
             float ballsize = e.getMagnitude() / 300.0;
             float mul_size = (currentTime - e.getDate().asSeconds()) / Config::timeWindow;
             ballsize *= 1.0 - mul_size;
-            if (e.getMagnitude() <= 7.0)
+            if (e.getMagnitude() < 7.0)
               glColor3f(0.8,0.2,0.2);
             else
               glColor3f(0.8,0.2,0.8);
