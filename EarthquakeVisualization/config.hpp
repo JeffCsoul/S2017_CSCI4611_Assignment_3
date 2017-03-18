@@ -5,7 +5,7 @@
 
 namespace Config {
 
-    const std::string dataDir = "/Users/Tiannan/GitHub/4611/CSCI4611_Project_03/EarthquakeVisualization/data";
+    const std::string dataDir = "/home/zhou0745/Github_repo/4611/CSCI4611_Project_03/EarthquakeVisualization/data";
 
     const std::string textureFile = dataDir + "/earth-2k.bmp";
     
